@@ -1,0 +1,31 @@
+## @file
+# Azure Pipeline to create PR to update subtree on completed commit
+#
+# Copyright (c) Microsoft Corporation
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+
+trigger:
+  branches:
+    include:
+    - master
+
+jobs:
+  - job: Build
+    pool:
+      vmImage: Windows-Latest
+
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: ">=3.10.6"
+        architectures: x64
+    - script: pip install -r .azurepipelines/requirements.txt --upgrade
+      displayName: Install and Upgrade pip requirements
+    - script: |
+        git config --global user.email "mscoreuefi@microsoft.com"
+        git config --global user.name "mu_bot"
+    - task: PythonScript@0
+      inputs:
+        scriptSource: 'filePath'
+        scriptPath: .azurepipelines/script.py
+        arguments: '-T $(Github.Token) -U $(Github.User)'
