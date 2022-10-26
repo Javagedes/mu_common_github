@@ -11,19 +11,18 @@ trigger:
 
 jobs:
   - job: Build
-    strategy:
-      pool:
-        vmImage: Windows-Latest
+    pool:
+      vmImage: Windows-Latest
 
-steps:
-  - task: UsePythonVersion@0
-    inputs:
-      versionSpec: ">=3.10.6"
-      architectures: x64
-  - script: pip install .azurepipelines/requirements.txt --upgrade
-    displayName: Install and Upgrade pip requirements
-  - task: PythonScript@0
-    inputs:
-      scriptSource: 'filePath'
-      scriptPath: .azurepipelines/script.py
-      arguments: '-T $(Github.Token) -U $(Github.User)'
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: ">=3.10.6"
+        architectures: x64
+    - script: pip install .azurepipelines/requirements.txt --upgrade
+      displayName: Install and Upgrade pip requirements
+    - task: PythonScript@0
+      inputs:
+        scriptSource: 'filePath'
+        scriptPath: .azurepipelines/script.py
+        arguments: '-T $(Github.Token) -U $(Github.User)'
