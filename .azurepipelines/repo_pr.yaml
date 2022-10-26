@@ -21,6 +21,9 @@ jobs:
         architectures: x64
     - script: pip install -r .azurepipelines/requirements.txt --upgrade
       displayName: Install and Upgrade pip requirements
+    - script: |
+      git config --global user.email "mscoreuefi@microsoft.com"
+      git config --global user.name "mu_bot"
     - task: PythonScript@0
       inputs:
         scriptSource: 'filePath'
