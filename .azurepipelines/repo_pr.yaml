@@ -8,7 +8,20 @@ trigger:
   branches:
     include:
     - master
+
+jobs:
+  - job: Build
+    strategy:
+      pool:
+        vmImage: Windows-Latest
+
 steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: ">=3.10.6"
+      architectures: x64
+  - script: pip install .azurepipelines/requirements.txt --upgrade
+    displayName: Install and Upgrade pip requirements
   - task: PythonScript@0
     inputs:
       scriptSource: 'filePath'
