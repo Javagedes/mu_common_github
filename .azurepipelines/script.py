@@ -18,7 +18,7 @@ def main():
 
     managed_repos = [
         # {"name": "mu_basecore", "url": "https://github.com/Javagedes/mu_basecore", "base": "release/202202"},
-        {"name": "mu_tiano_platforms", "url": "https://github.com/Javagedes/mu_tiano_platforms.git", "base":"release/202202"}
+        {"name": "mu_tiano_platforms", "url": "https://github.com/Javagedes/mu_tiano_platforms.git", "base":"main"}
     ]
 
     g = Github(token)
@@ -45,7 +45,6 @@ Automatically generated PR
     # Uses github (PyGithub) for interfacing with github
     for repo in managed_repos:
         print(f'Starting update for {repo["name"]}')
-        branch_exists = False
         
         # Clone the repository
         print(f'cloning {repo["name"]}')
@@ -55,17 +54,16 @@ Automatically generated PR
         github_repo = g.get_repo(f'{repo["url"].lstrip("https:://github.com/").rstrip(".git")}')
         for pull in github_repo.get_pulls(state='open'):
             if pull.title == pr_title:
-                print("A PR already exists")
-                branch_exists = True
+                print("PR exists, closing and deleting branch")
+                pull.edit(state='closed', body='Replaced by newer Subtree update.')
+                ref = github_repo.get_git_ref(f'heads/{head}')
+                ref.delete()
         
         # Checkout the branch if it exists, or create one if it does not.
         # If branch exists, assume PR has been created already and we just 
         # need to update the commit.
-        print(f'Checking out: {head}')
-        if branch_exists:
-            r.git.checkout(head)
-        else:
-            r.git.checkout('-b', head)
+        print("Checking out branch")
+        r.git.checkout('-b', head)
 
         print('Updating the subtree')
         # Update the subtree, adds the commits to branch so no need to run commit command
@@ -76,10 +74,9 @@ Automatically generated PR
         r.git.push(f'https://{user}:{token}@{repo["url"].lstrip("https://")}', head, "--force")
 
         # Create PR
-        if not branch_exists:
-            print("Branch did not exist; creating new PR")
-            github_repo = g.get_repo(f'{repo["url"].lstrip("https:://github.com/").rstrip(".git")}')
-            github_repo.create_pull(title=pr_title, body = pr_body, head = head, base = repo["base"])
+        print("Branch did not exist; creating new PR")
+        github_repo = g.get_repo(f'{repo["url"].lstrip("https:://github.com/").rstrip(".git")}')
+        github_repo.create_pull(title=pr_title, body = pr_body, head = head, base = repo["base"])
 
 if __name__ == "__main__":
     main()
