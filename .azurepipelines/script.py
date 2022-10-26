@@ -69,8 +69,8 @@ Automatically generated PR
 
         print('Updating the subtree')
         # Update the subtree, adds the commits to branch so no need to run commit command
-        #r.git.subtree('pull', '--prefix', '.github/', 'https://github.com/Javagedes/mu_common_github', 'master', '--squash', '--no-commit')
-        r.git.merge('-s', 'subtree', '-Xsubtree=.github/', 'https://github.com/Javagedes/mu_common_github', 'master', '--squash', '--no-commit', '--allow-unrelated-histories')
+        r.git.subtree('pull', '--prefix', '.github/', 'https://github.com/Javagedes/mu_common_github', 'master', '--squash', '--no-commit')
+        r.git.reset('--hard', 'HEAD~1')
 
         # Push the commit
         print("Pushing the commit")
