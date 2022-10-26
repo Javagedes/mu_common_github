@@ -19,7 +19,7 @@ jobs:
       inputs:
         versionSpec: ">=3.10.6"
         architectures: x64
-    - script: pip install .azurepipelines/requirements.txt --upgrade
+    - script: pip install -r .azurepipelines/requirements.txt --upgrade
       displayName: Install and Upgrade pip requirements
     - task: PythonScript@0
       inputs:
