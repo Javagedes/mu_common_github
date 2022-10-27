@@ -13,7 +13,7 @@ trigger:
 pr: none 
 
 jobs:
-  - job: Build
+  - job: Run
     pool:
       vmImage: Windows-Latest
 
@@ -32,3 +32,4 @@ jobs:
         scriptSource: 'filePath'
         scriptPath: .azurepipelines/scripts/subtree_pr_gen.py
         arguments: '-T $(Github.Token) -U $(Github.User) -P .github/ -R .azurepipelines/scripts/repo_list.yaml'
+      displayName: Generate PRs
