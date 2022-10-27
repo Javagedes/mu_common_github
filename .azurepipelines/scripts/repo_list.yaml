@@ -1,0 +1,16 @@
+# @file repo_list.yaml
+# List of all repos to run the subtree_pr_gen.py script on
+##
+# Copyright (c) Microsoft Corporation
+#
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+##
+
+repos:
+  - name: mu_tiano_platforms
+    url: https://github.com/Javagedes/mu_tiano_platforms.git
+    base: main
+  
+  # - name: mu_basecore
+  #  url: https://github.com/Javagedes/mu_basecore.git
+  #  main: release/202208

@@ -1,0 +1,39 @@
+## @file Windows-VS.yml
+# Azure Pipeline CI test file.
+#
+# Copyright (c) Microsoft Corporation
+#
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+##
+
+resources:
+  repositories:
+    - repository: mu_devops
+      type: github
+      endpoint: microsoft
+      name: microsoft/mu_devops
+      ref: main
+
+jobs:
+  - job: Test
+    pool:
+      vmImage: Windows-Latest
+  
+    steps:
+    - template: SetupPythonPreReqs.yml
+      parameters: 
+        pip_requirement_files: requirements.txt
+    - template: SetNodeVersion.yml
+    - template: InstallSpellCheck.yml
+    - template: InstallMarkdownLint.yml
+    - template: Python/RunFlake8Tests.yml
+    - template: RunMarkdownLint.yml
+    - template: RunSpellCheck.yml
+    - task: PublishBuildArtifacts@1
+      displayName: Publish Artifacts
+      inputs:
+        pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        artifactName: 'Artifacts'
+      condition: succeededOrFailed()
+    
+

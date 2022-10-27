@@ -1,8 +1,11 @@
-## @file
-# Azure Pipeline to create PR to update subtree on completed commit
-#
+# @file CreatePr.yaml
+# Azure Pipeline that executes on a new commit to Master, that creates a
+# subtree pull PR request for all repos listed.
+##
 # Copyright (c) Microsoft Corporation
+#
 # SPDX-License-Identifier: BSD-2-Clause-Patent
+##
 
 trigger:
   branches:
@@ -23,9 +26,9 @@ jobs:
       displayName: Install and Upgrade pip requirements
     - script: |
         git config --global user.email "mscoreuefi@microsoft.com"
-        git config --global user.name "mu_bot"
+        git config --global user.name "uefibot"
     - task: PythonScript@0
       inputs:
         scriptSource: 'filePath'
-        scriptPath: .azurepipelines/script.py
-        arguments: '-T $(Github.Token) -U $(Github.User)'
+        scriptPath: .azurepipelines/subtree_pr_gen.py
+        arguments: '-T $(Github.Token) -U $(Github.User) -P .github/ -R .azurepipelines/scripts/repo_list.yaml'
