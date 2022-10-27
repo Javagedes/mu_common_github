@@ -8,7 +8,7 @@
 ##
 
 trigger:
-- master
+- main
 
 pr: none 
 
