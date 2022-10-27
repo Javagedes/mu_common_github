@@ -99,7 +99,7 @@ Automatically generated PR
         # the subtree pull commit).
         logging.info('Performing the subtree pull')
         r.git.checkout('-b', 'temp')
-        r.git.subtree('pull', '--prefix', '.github/', 'https://github.com/Javagedes/mu_common_github', 'master', '--squash')
+        r.git.subtree('pull', '--prefix', '.github/', 'https://github.com/Javagedes/mu_common_github', 'main', '--squash')
         hash = r.git.log('-n', '1', '--skip=1', '--pretty=format:%H')
         
         r.git.checkout(repo['base'])
