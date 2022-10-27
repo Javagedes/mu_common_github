@@ -111,7 +111,7 @@ Automatically generated PR
         r.git.push(f'https://{user}:{token}@{repo["url"].lstrip("https://")}', head, "--force")
 
         # Create PR
-        logging.info('Creating the subtree update PR for repo: {repo['name']}')
+        logging.info(f'Creating the subtree update PR for repo: {repo["name"]}')
         github_repo = github_wrapper.get_repo(f'{repo["url"].lstrip("https:://github.com/").rstrip(".git")}')
         github_repo.create_pull(title=pr_title, body = pr_body, head = head, base = repo["base"])
 
