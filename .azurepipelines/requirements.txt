@@ -1,3 +1,3 @@
-edk2-pytool-library
-PyGithub
-GitPython
+PyGithub==1.56
+GitPython==3.1.29
+pyYAML==6.0
