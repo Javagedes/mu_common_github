@@ -19,9 +19,9 @@ no longer matches the commit value.
 
 ## Pipeline broken, out of sync?
 
-This typically happens when someone makes an edit to a file in the .github/
-directory from within a different repository then this one. to remedy this
-situation, you will need to:
+This typically happens when someone merged the PR via a squash or makes an edit
+to a file in the .github/ directory from within a different repository then
+this one. to remedy this situation, you will need to:
 
 1. Make a branch in the offending repo
 2. delete the .github/ folder
