@@ -27,6 +27,7 @@ jobs:
     - script: |
         git config --global user.email "mscoreuefi@microsoft.com"
         git config --global user.name "uefibot"
+      displayName: Set git user information
     - task: PythonScript@0
       inputs:
         scriptSource: 'filePath'
