@@ -71,6 +71,7 @@ Automatically generated PR
         # Update the subtree, adds the commits to branch so no need to run commit command
         r.git.subtree('pull', '--prefix', '.github/', 'https://github.com/Javagedes/mu_common_github', 'master', '--squash')
         hash = r.git.log('-n', '1', '--skip=1', '--pretty=format:"%H"')
+        print("Hello: ", hash)
         
         r.git.checkout(repo['base'])
         r.git.checkout('-b', head)
