@@ -65,12 +65,16 @@ Automatically generated PR
         # If branch exists, assume PR has been created already and we just 
         # need to update the commit.
         print("Checking out branch")
-        r.git.checkout('-b', head)
+        r.git.checkout('-b', 'temp')
 
         print('Updating the subtree')
         # Update the subtree, adds the commits to branch so no need to run commit command
         r.git.subtree('pull', '--prefix', '.github/', 'https://github.com/Javagedes/mu_common_github', 'master', '--squash')
-        r.git.reset('--hard', 'HEAD~1')
+        hash = r.git.rev_parse('HEAD~1')
+        print(hash)
+
+        r.git.checkout('-b', head)
+        r.git.cherry_pick(hash)
 
         # Push the commit
         print("Pushing the commit")
