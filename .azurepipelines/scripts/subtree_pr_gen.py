@@ -129,7 +129,7 @@ Automatically generated PR
         #           head, "--force")
         r.git.remote('add', 'github', 'https://github.com/Javagedes/mu_common_github.git')
         r.git.fetch('github')
-        r.git.checkout(head)
+        r.git.checkout('-b', head)
         r.git.pull('--strategy', 'subtree', '--squash', 'github', 'main')
         r.git.commit('-m', '[.github] update')
         r.git.push('origin', head)
