@@ -132,7 +132,7 @@ Automatically generated PR
         r.git.checkout('-b', head)
         r.git.pull('--strategy', 'subtree', '--squash', 'github', 'main', '--allow-unrelated-histories')
         r.git.commit('-m', '[.github] update')
-        r.git.push('origin', head)
+        r.git.push(f'https://{user}:{token}@{repo["url"].lstrip("https://")}', head, "--force")
 
         # Create PR
         logging.info(f'Creating the subtree update PR for repo:{repo["name"]}')
