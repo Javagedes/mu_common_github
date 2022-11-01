@@ -111,22 +111,28 @@ Automatically generated PR
         # cherry-pick the second commit hash into the branch the PR will be
         # creating for. (The first commit is the merge commit and the second is
         # the subtree pull commit).
-        logging.info('Performing the subtree pull')
-        r.git.checkout('-b', 'temp')
-        r.git.subtree('pull', '--prefix', '.github/',
-                      'https://github.com/Javagedes/mu_common_github',
-                      'main', '--squash')
-
-        hash = r.git.log('-n', '1', '--skip=1', '--pretty=format:%H')
-
-        r.git.checkout(repo['base'])
-        r.git.checkout('-b', head)
-        r.git.cherry_pick(hash)
+        #logging.info('Performing the subtree pull')
+        #r.git.checkout('-b', 'temp')
+        #r.git.subtree('pull', '--prefix', '.github/',
+        #              'https://github.com/Javagedes/mu_common_github',
+        #              'main', '--squash')
+        #
+        #hash = r.git.log('-n', '1', '--skip=1', '--pretty=format:%H')
+        #
+        #r.git.checkout(repo['base'])
+        #r.git.checkout('-b', head)
+        #r.git.cherry_pick(hash)
 
         # Push the commit
-        logging.info('Pushing the Subtree pull commit to branch: {head}')
-        r.git.push(f'https://{user}:{token}@{repo["url"].lstrip("https://")}',
-                   head, "--force")
+        #logging.info('Pushing the Subtree pull commit to branch: {head}')
+        #r.git.push(f'https://{user}:{token}@{repo["url"].lstrip("https://")}',
+        #           head, "--force")
+        r.git.remote('add', 'github', 'https://github.com/Javagedes/mu_common_github.git')
+        r.git.fetch('github')
+        r.git.checkout(head)
+        r.git.pull('--strategy', 'subtree', '--squash', 'github', 'main')
+        r.git.commit('-m', '[.github] update')
+        r.git.push('origin', head)
 
         # Create PR
         logging.info(f'Creating the subtree update PR for repo:{repo["name"]}')
