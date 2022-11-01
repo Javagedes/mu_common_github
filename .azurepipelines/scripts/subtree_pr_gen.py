@@ -130,7 +130,7 @@ Automatically generated PR
         r.git.remote('add', 'github', 'https://github.com/Javagedes/mu_common_github.git')
         r.git.fetch('github')
         r.git.checkout('-b', head)
-        r.git.pull('--strategy', 'subtree', '--squash', 'github', 'main' '--allow-unrelated-histories')
+        r.git.pull('--strategy', 'subtree', '--squash', 'github', 'main', '--allow-unrelated-histories')
         r.git.commit('-m', '[.github] update')
         r.git.push('origin', head)
 
