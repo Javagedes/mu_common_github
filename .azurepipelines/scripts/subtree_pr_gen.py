@@ -98,15 +98,15 @@ Automatically generated PR
 
         logging.info(f'Cloning {r["name"]}')
         target_repo = Repo.clone_from(
-            r["url"], os.path.join(repo_base_path, r["name"]))
+            r["url"], os.path.join(repo_base_path, r["name"])) # Does this make git think we are calling from root of repo?
 
         this_repo = Repo(os.getcwd())
 
         this_repo.git.format_patch("-n", "HEAD^", "--stdout", ">", "temp.patch")
-        target_repo.git.patch("-p3", "temp.patch")
-
-
-
+        target_repo.git.checkout('-b', head)
+        target_repo.git.apply("../temp.patch", "--directory=.github")
+        target_repo.git.commit('-m', 'automated update')
+        target_repo.git.push(f'https://{user}:{token}@{repo["url"].lstrip("https://")}', head, "--force")
 
         # This way works if we want to just filter out specific files.
         #r.git.remote('add', 'github', 'https://github.com/Javagedes/mu_common_github.git')
