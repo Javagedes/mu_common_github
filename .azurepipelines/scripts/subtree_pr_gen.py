@@ -108,14 +108,14 @@ Automatically generated PR
         #target_repo.git.push(f'https://{user}:{token}@{r["url"].lstrip("https://")}', head, "--force")
 
         # This way works if we want to just filter out specific files.
-        r.git.remote('add', 'github', 'https://github.com/Javagedes/mu_common_github.git')
-        r.git.fetch('github')
-        r.git.checkout('-b', head)
-        r.git.pull('--strategy', 'subtree', '--squash', 'github', 'main', '--allow-unrelated-histories')
-        r.git.commit('-m', '[.github] update')
+        target_repo.git.remote('add', 'github', 'https://github.com/Javagedes/mu_common_github.git')
+        target_repo.git.fetch('github')
+        target_repo.git.checkout('-b', head)
+        target_repo.git.pull('--strategy', 'subtree', '--squash', 'github', 'main', '--allow-unrelated-histories')
+        target_repo.git.commit('-m', '[.github] update')
         for ignore_file in r["ignore"]:
-            r.git.reset("--", ignore_file)
-        r.git.push(f'https://{user}:{token}@{r["url"].lstrip("https://")}', head, "--force")
+            target_repo.git.reset("--", ignore_file)
+        target_repo.git.push(f'https://{user}:{token}@{r["url"].lstrip("https://")}', head, "--force")
 
         # Create PR
         logging.info(f'Creating the subtree update PR for repo:{r["name"]}')
