@@ -112,8 +112,12 @@ Automatically generated PR
         target_repo.git.fetch('github')
         target_repo.git.checkout('-b', head)
         target_repo.git.pull('--strategy', 'subtree', '--squash', 'github', 'main', '--allow-unrelated-histories')
+        logging.info(target_repo.git.status())
         for ignore_file in r["ignore"]:
-            logging.info(target_repo.git.reset("--", ignore_file))
+            logging.info(ignore_file)
+            target_repo.git.reset("--", ignore_file)
+
+        logging.info(target_repo.git.status())
         target_repo.git.commit('-m', '[.github] update')
         target_repo.git.push(f'https://{user}:{token}@{r["url"].lstrip("https://")}', head, "--force")
 
