@@ -98,23 +98,24 @@ Automatically generated PR
 
         logging.info(f'Cloning {r["name"]}')
         target_repo = Repo.clone_from(
-            r["url"], os.path.join(repo_base_path, r["name"])) # Does this make git think we are calling from root of repo?
+            r["url"], os.path.join(repo_base_path, r["name"]))
 
-        this_repo = Repo(os.getcwd())
-
-        this_repo.git.format_patch("-n", "HEAD^", "--stdout", ">", "temp.patch")
-        target_repo.git.checkout('-b', head)
-        target_repo.git.apply("../temp.patch", "--directory=.github")
-        target_repo.git.commit('-m', 'automated update')
-        target_repo.git.push(f'https://{user}:{token}@{repo["url"].lstrip("https://")}', head, "--force")
+        #this_repo = Repo(os.getcwd())
+        #this_repo.git.format_patch("-n", "HEAD^", "--stdout", ">", "temp.patch")
+        #target_repo.git.checkout('-b', head)
+        #target_repo.git.apply("../temp.patch", "--directory=.github")
+        #target_repo.git.commit('-m', 'automated update')
+        #target_repo.git.push(f'https://{user}:{token}@{r["url"].lstrip("https://")}', head, "--force")
 
         # This way works if we want to just filter out specific files.
-        #r.git.remote('add', 'github', 'https://github.com/Javagedes/mu_common_github.git')
-        #r.git.fetch('github')
-        #r.git.checkout('-b', head)
-        #r.git.pull('--strategy', 'subtree', '--squash', 'github', 'main', '--allow-unrelated-histories')
-        #r.git.commit('-m', '[.github] update')
-        #r.git.push(f'https://{user}:{token}@{repo["url"].lstrip("https://")}', head, "--force")
+        r.git.remote('add', 'github', 'https://github.com/Javagedes/mu_common_github.git')
+        r.git.fetch('github')
+        r.git.checkout('-b', head)
+        r.git.pull('--strategy', 'subtree', '--squash', 'github', 'main', '--allow-unrelated-histories')
+        r.git.commit('-m', '[.github] update')
+        for ignore_file in r["ignore"]:
+            r.git.reset("--", ignore_file)
+        r.git.push(f'https://{user}:{token}@{r["url"].lstrip("https://")}', head, "--force")
 
         # Create PR
         logging.info(f'Creating the subtree update PR for repo:{r["name"]}')

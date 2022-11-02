@@ -33,3 +33,5 @@ this one. to remedy this situation, you will need to:
 5. Submit a PR with the commit to remove the .github/ folder, and the (1 or 2)
 commits from the git subtree command
     - Note: This PR must be completed via a REBASE & FF
+
+.
