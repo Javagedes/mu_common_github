@@ -10,6 +10,12 @@ repos:
   - name: mu_tiano_platforms
     url: https://github.com/Javagedes/mu_tiano_platforms.git
     base: main
+    ignore:
+      - dependabot.yml
+      - .azurepipelines/
+      - .gitignore
+
+
   
   # - name: mu_basecore
   #  url: https://github.com/Javagedes/mu_basecore.git
